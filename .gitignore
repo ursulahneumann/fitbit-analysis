@@ -1,5 +1,5 @@
-# Folder containing app secrets etc.
-secrets
+# Ignore any DO_NOT_COMMIT files, such as secret files
+DO_NOT_COMMIT*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
