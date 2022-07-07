@@ -11,11 +11,11 @@ MOCK_AUTH_URL = (f"https://www.fitbit.com/oauth2/authorize?"
                  f"%20activity%20sleep%20heartrate%20social")
 
 
-def test_generate_code_challenge():
+def test_make_code_challenge():
     # See step 1 of 
     # https://dev.fitbit.com/build/reference/web-api/developer-guide/authorization/
 
-    assert auth.generate_code_challenge('01234567890123456789012345678901234567890123456789') \
+    assert auth.make_code_challenge('01234567890123456789012345678901234567890123456789') \
         == '-4cf-Mzo_qg9-uq0F4QwWhRh4AjcAqNx7SbYVsdmyQM'
 
 def test_make_auth_api_url():
