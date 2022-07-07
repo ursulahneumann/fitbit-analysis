@@ -1,5 +1,2 @@
 # Location of secrets file (e.g. client_id)
 secrets_file = 'DO_NOT_COMMIT_secrets.toml'
-# Location of token files
-access_token_file = 'DO_NOT_COMMIT_access.token'
-refresh_token_file = 'DO_NOT_COMMIT_refresh.token'
