@@ -2,6 +2,10 @@ from secrets import token_urlsafe
 from base64 import urlsafe_b64encode
 from hashlib import sha256
 from urllib.parse import quote as url_quote
+import requests
+import json
+
+TOKEN_ENDPOINT = "https://api.fitbit.com/oauth2/token"
 
 
 def make_code_verifier(bytes_of_randomness:int = 64) -> str:
@@ -41,3 +45,28 @@ def make_auth_api_url(
             f"&code_challenge_method={code_challenge_method}"
             f"&scope={url_quote(scope)}"
     )
+
+def exchange_code_for_tokens(
+    client_id:str,
+    authorization_code:str, 
+    code_verifier:str, 
+    grant_type="authorization_code",
+    api_endpoint=TOKEN_ENDPOINT) -> dict:
+
+    # This func is incomplete.
+    raise NotImplemented
+
+    r = requests.post(
+        url=api_endpoint,
+        data={
+            'client_id':client_id,
+            'code':authorization_code,
+            'code_verifier':code_verifier,
+            'grant_type':grant_type
+        })
+    
+    # Raise if something went wrong with the request
+    r.raise_for_status()
+    
+    return json.loads(r.text)
+    
