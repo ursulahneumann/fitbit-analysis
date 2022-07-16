@@ -29,7 +29,7 @@ def make_auth_api_url(
     """Make url for authorization endpoint.
 
     Args:
-        client_id (str): _description_
+        client_id (str): Id received during app registration.
         scope (str): Space separated str e.g. 'weight heartrate sleep'.
         code_challenge (str): OAuth2 PKCE code challenge.
         code_challenge_method (str, optional): Only 'S256' is currently supported.
