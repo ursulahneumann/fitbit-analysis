@@ -52,9 +52,19 @@ def exchange_code_for_tokens(
     code_verifier:str, 
     grant_type="authorization_code",
     api_endpoint=TOKEN_ENDPOINT) -> dict:
+    """Exchange user-specific authorization code for access and refresh tokens.
 
-    # This func is incomplete.
-    raise NotImplemented
+    Args:
+        client_id (str): Id received during app registration.
+        authorization_code (str): Previously received user authorization code.
+        code_verifier (str): Previously generated code verifier.
+        grant_type (str, optional): Only "authorization_code" is currently supported.
+        api_endpoint (_type_, optional): Currently default endpoint at 
+            https://api.fitbit.com/oauth2/token.
+
+    Returns:
+        dict: Converted JSON response containing access/refresh tokens.
+    """
 
     r = requests.post(
         url=api_endpoint,
