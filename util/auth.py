@@ -1,7 +1,7 @@
 from secrets import token_urlsafe
 from base64 import urlsafe_b64encode
 from hashlib import sha256
-from urllib.parse import quote as url_quote
+import webbrowser
 import requests
 import json
 
@@ -43,8 +43,23 @@ def make_auth_api_url(
             f"&response_type={response_type}"
             f"&code_challenge={code_challenge}"
             f"&code_challenge_method={code_challenge_method}"
-            f"&scope={url_quote(scope)}"
+            f"&scope={scope}"
     )
+
+def retrieve_auth_code(
+    client_id:str,
+    scope:str,    
+    code_challenge:str) -> None:
+    """Retrieve the authorization code.
+
+    Args:
+        client_id (str): Id received during app registration.
+        scope (str): Space separated str e.g. 'weight heartrate sleep'.
+        code_challenge (str): OAuth2 PKCE code challenge.
+    """
+    url = make_auth_api_url(client_id, scope, code_challenge)
+    # Webbrowser open converts spaces in scope string to %20.
+    webbrowser.open(url)
 
 def exchange_code_for_tokens(
     client_id:str,

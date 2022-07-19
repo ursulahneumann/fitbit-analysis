@@ -1,5 +1,4 @@
 from util.auth import *
-import webbrowser
 import toml
 from urllib.parse import quote
 from getpass import getpass
@@ -35,8 +34,7 @@ code_challenge = make_code_challenge(code_verifier)
 # This will prompt for a login and authorization in webbrowser.
 # On completion, it will return the user to localhost,
 # with a query string parameter containing the code challenge.
-auth_url = make_auth_api_url(client_id, scope, code_challenge)
-webbrowser.open(auth_url)
+retrieve_auth_code(client_id, scope, code_challenge)
 
 # Prompt for proceed
 auth_code = getpass(" Paste code challenge from URL query string.\n"
