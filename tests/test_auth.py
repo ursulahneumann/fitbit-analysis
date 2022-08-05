@@ -3,7 +3,7 @@ import util.auth as auth
 MOCK_CODE_CHALLENGE = '-4cf-Mzo_qg9-uq0F4QwWhRh4AjcAqNx7SbYVsdmyQM'
 MOCK_CLIENT_ID ='ABC123' # i.e. app id
 # Spaces are not necessary to convert, as webbrowser.open()
-# will convert.
+# will convert to a url safe string.
 MOCK_AUTH_URL = (f"https://www.fitbit.com/oauth2/authorize?"
                  f"client_id={MOCK_CLIENT_ID}"
                  f"&response_type=code"
