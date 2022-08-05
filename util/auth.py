@@ -1,5 +1,5 @@
 from secrets import token_urlsafe
-from base64 import urlsafe_b64encode
+from base64 import urlsafe_b64encode, b64encode, b64decode
 from hashlib import sha256
 import webbrowser
 import requests
@@ -63,6 +63,7 @@ def retrieve_auth_code(
 
 def exchange_code_for_tokens(
     client_id:str,
+    client_secret: str,
     authorization_code:str, 
     code_verifier:str, 
     grant_type="authorization_code",
@@ -71,6 +72,7 @@ def exchange_code_for_tokens(
 
     Args:
         client_id (str): Id received during app registration.
+        client_secret (str): Secret received during app registration.
         authorization_code (str): Previously received user authorization code.
         code_verifier (str): Previously generated code verifier.
         grant_type (str, optional): Only "authorization_code" is currently supported.
@@ -80,18 +82,26 @@ def exchange_code_for_tokens(
     Returns:
         dict: Converted JSON response containing access/refresh tokens.
     """
-
     r = requests.post(
         url=api_endpoint,
+        headers={
+            'Authorization':
+            'Basic ' + b64encode((client_id + ':' + client_secret).encode()).decode()},
         data={
             'client_id':client_id,
             'code':authorization_code,
             'code_verifier':code_verifier,
-            'grant_type':grant_type
+            'grant_type':grant_type,
         })
-    
+
     # Raise if something went wrong with the request
-    r.raise_for_status()
-    
+    try:
+        r.raise_for_status()
+    except Exception as e:
+        print('\n\n')
+        print("Response content for error at bottom:")
+        print()
+        print(r.content)
+        raise e
     return json.loads(r.text)
     
