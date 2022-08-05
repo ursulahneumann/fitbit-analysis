@@ -24,7 +24,6 @@ def test_make_auth_api_url():
     # See step 2 of 
     # https://dev.fitbit.com/build/reference/web-api/developer-guide/authorization/
     
-
     assert auth.make_auth_api_url(
         client_id = MOCK_CLIENT_ID,
         scope = "weight location settings profile nutrition activity sleep heartrate social",
