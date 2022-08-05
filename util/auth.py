@@ -1,5 +1,5 @@
 from secrets import token_urlsafe
-from base64 import urlsafe_b64encode, b64encode, b64decode
+from base64 import urlsafe_b64encode, b64encode
 from hashlib import sha256
 import webbrowser
 import requests
@@ -14,10 +14,10 @@ def make_code_verifier(bytes_of_randomness:int = 64) -> str:
 
 def make_code_challenge(code_verifier:str) -> str:
     """Generate an OAuth2 code challenge from a code verifier."""
-    # Set up the hashing func
+    # Set up the hashing function
     hasher = sha256()
     hasher.update(code_verifier.encode())
-    # Base64 encode the digest, get the string, strip trailing padding.
+    # Base64 encode the digest, get the string, strip trailing padding
     return urlsafe_b64encode(hasher.digest()).decode().replace('=', '')
 
 def make_auth_api_url(
@@ -61,7 +61,8 @@ def retrieve_auth_code(
         None
     """
     url = make_auth_api_url(client_id, scope, code_challenge)
-    # Webbrowser open converts spaces in scope string to %20.
+    # URL unsafe spaces are converted by webbrowser.open() to URL safe '%20'
+    # i.e. no need to convert beforehand
     webbrowser.open(url)
 
 def exchange_code_for_tokens(
@@ -106,5 +107,6 @@ def exchange_code_for_tokens(
         print()
         print(r.content)
         raise e
+
     return json.loads(r.text)
     
