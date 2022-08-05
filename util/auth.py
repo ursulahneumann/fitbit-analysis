@@ -56,6 +56,9 @@ def retrieve_auth_code(
         client_id (str): Id received during app registration.
         scope (str): Space separated str e.g. 'weight heartrate sleep'.
         code_challenge (str): OAuth2 PKCE code challenge.
+
+    Returns:
+        None
     """
     url = make_auth_api_url(client_id, scope, code_challenge)
     # Webbrowser open converts spaces in scope string to %20.
