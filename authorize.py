@@ -65,3 +65,6 @@ secrets[SECRETS_ACCESS_TOKEN_KEY] = tokens_dict[TOKEN_API_ACCESS_TOKEN_KEY]
 secrets[SECRETS_REFRESH_TOKEN_KEY] = tokens_dict[TOKEN_API_REFRESH_TOKEN_KEY]
 with open(config[CONFIG_SECRETS_FILE_KEY], 'w') as f:
     toml.dump(secrets, f)
+
+# Print success message
+print("Successful acquired access and refresh tokens!")
