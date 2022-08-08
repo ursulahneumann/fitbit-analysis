@@ -1,0 +1,4 @@
+# Location of secrets file (e.g. client_id)
+secrets_file = "DO_NOT_COMMIT_secrets.toml"
+# Scope of authorization request (space separated string)
+scope = "weight nutrition activity sleep heartrate social"
