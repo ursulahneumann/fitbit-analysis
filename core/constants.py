@@ -1,3 +1,5 @@
+# Configuration file location
+CONFIG_FILE = 'config.toml'
 # Config file keys
 CONFIG_SCOPE_KEY = 'scope'
 CONFIG_SECRETS_FILE_KEY = 'secrets_file'

@@ -1,20 +1,15 @@
-from util.auth import *
 import toml
 from urllib.parse import quote
 
+# Add path to packages for import
+import os
+import sys
+script_dir = os.path.dirname(__file__)
+core_dir = os.path.join(script_dir, '..', 'core')
+sys.path.append(core_dir)
 
-CONFIG_FILE = 'config.toml'
-CONFIG_SCOPE_KEY = 'scope'
-CONFIG_SECRETS_FILE_KEY = 'secrets_file'
-SECRETS_CLIENT_ID_KEY = 'client_id'
-SECRETS_CLIENT_SECRETS_KEY = 'client_secret'
-SECRETS_AUTH_CODE_KEY = 'auth_code'
-SECRETS_ACCESS_TOKEN_KEY = 'access_token'
-SECRETS_REFRESH_TOKEN_KEY = 'refresh_token'
-SECRETS_USER_ID_KEY = 'user_id'
-TOKEN_API_ACCESS_TOKEN_KEY = 'access_token'
-TOKEN_API_REFRESH_TOKEN_KEY = 'refresh_token'
-TOKEN_API_USER_ID_KEY = 'user_id'
+from constants import *
+from auth import *
 
 # Read in config file.
 with open(CONFIG_FILE) as f:
