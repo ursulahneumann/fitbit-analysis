@@ -1,4 +1,4 @@
-import util.auth as auth
+import core.auth as auth
 
 MOCK_CODE_CHALLENGE = '-4cf-Mzo_qg9-uq0F4QwWhRh4AjcAqNx7SbYVsdmyQM'
 MOCK_CLIENT_ID ='ABC123' # i.e. app id
