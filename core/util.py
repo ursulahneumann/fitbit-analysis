@@ -40,4 +40,6 @@ def refresh_token(config_file_path: str) -> None:
     secrets[constants.SECRETS_REFRESH_TOKEN_KEY] = data[constants.TOKEN_API_REFRESH_TOKEN_KEY]
 
     # Save new tokens by overwriting secrets file
-    toml.dump(secrets, config[constants.CONFIG_SECRETS_FILE_KEY])
+    with open(config[constants.CONFIG_SECRETS_FILE_KEY], 'w') as f:
+        toml.dump(secrets, f)
+    
