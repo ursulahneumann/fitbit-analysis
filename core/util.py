@@ -1,6 +1,6 @@
 import toml
-import constants
-import auth
+from core import constants
+from core import auth
 
 def load_tokens(config_file_path: str) -> dict:
     """Load tokens from a secrets file specified by the config file.
