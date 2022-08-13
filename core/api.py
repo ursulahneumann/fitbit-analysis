@@ -43,11 +43,11 @@ class FitBitAPI:
 
 class _HeartRate:
     def __init__(self, tokens) -> None:
-        self.tokens = tokens
+        self._tokens = tokens
     
-    def by_date(self):
+    def by_date(self, date:str = 'today', period: str = '1d' ) -> dict:
         url = constants.API_ROOT
-        url += f"/1/user/{self.tokens[constants.SECRETS_USER_ID_KEY]}"
-        url += "/activities/heart/date/today/1d.json"
-        return api_request(url, self.tokens)
+        url += f"/1/user/{self._tokens[constants.SECRETS_USER_ID_KEY]}"
+        url += f"/activities/heart/date/{date}/{period}.json"
+        return api_request(url, self._tokens)
 
