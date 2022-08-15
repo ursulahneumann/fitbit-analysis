@@ -76,7 +76,7 @@ def check_date_format_wrapper(date: str) -> str:
 
 
 
-class FitBitAPI:
+class FitbitAPI:
     def __init__(self, tokens: dict) -> None:
         # Attributes representing api endpoints
         # allow for dot notation access by client code
