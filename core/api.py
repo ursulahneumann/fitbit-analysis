@@ -8,7 +8,22 @@ def api_request(
     url: str,
     tokens: dict,
     config_file = constants.CONFIG_FILE) -> dict:
+    """Makes an Fitbit API request.
 
+    To be called from within various API endpoint objects.
+    Will try to refresh the access token automatically if expired.
+
+    Args:
+        url (str): a premade API endpoint url
+        tokens (dict): containing access and refresh tokens
+        config_file (str, optional): file location of the config file. Defaults to 'config.toml'.
+
+    Raises:
+        Exception: any exception from API requesting.
+
+    Returns:
+        dict: from JSON data
+    """
     HEADERS = {'Authorization': f"Bearer {tokens[constants.TOKEN_API_ACCESS_TOKEN_KEY]}",
                  'accept':"application/json"}
     
