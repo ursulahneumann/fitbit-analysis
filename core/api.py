@@ -72,6 +72,21 @@ class _HeartRate:
         self._tokens = tokens
     
     def by_date(self, date:str = 'today', period: str = '1d' ) -> dict:
+        """Heart rate by date endpoint.
+
+        Reference:
+        https://dev.fitbit.com/build/reference/web-api/heartrate-timeseries/get-heartrate-timeseries-by-date/
+
+        Args:
+            date (str, optional): yyyy-MM-dd format date, or 'today'. Defaults to 'today'.
+            period (str, optional): Time period for the data. Defaults to '1d'.
+
+        Raises:
+            ValueError: if date/period don't match expected formats
+
+        Returns:
+            dict: from JSON data
+        """
         # Validate period
         VALID_PERIODS = ['1d', '7d', '30d', '1w', '1m']
         if period not in VALID_PERIODS:
