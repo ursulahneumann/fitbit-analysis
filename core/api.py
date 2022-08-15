@@ -72,10 +72,15 @@ class _HeartRate:
         self._tokens = tokens
     
     def by_date(self, date:str = 'today', period: str = '1d' ) -> dict:
+        # Validate period
         VALID_PERIODS = ['1d', '7d', '30d', '1w', '1m']
         if period not in VALID_PERIODS:
             raise ValueError(f"period '{period}' should be one of {VALID_PERIODS}.")
 
+        # Validate date
+        date = check_date_format_wrapper(date)
+
+        # API request
         url = constants.API_ROOT
         url += f"/1/user/{self._tokens[constants.SECRETS_USER_ID_KEY]}"
         url += f"/activities/heart/date/{date}/{period}.json"
