@@ -94,7 +94,8 @@ class _HeartRate:
 
         Args:
             date (str, optional): yyyy-MM-dd format date, or 'today'. Defaults to 'today'.
-            period (str, optional): Time period for the data. Defaults to '1d'.
+            period (str, optional): Time period for the data.
+                One of ['1d', '7d', '30d', '1w', '1m']. Defaults to '1d'.
 
         Raises:
             ValueError: if date/period don't match expected formats
