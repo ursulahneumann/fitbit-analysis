@@ -1,5 +1,6 @@
 import requests
 import json
+import re
 from core.util import load_tokens, refresh_token
 from core import constants
 
@@ -35,6 +36,30 @@ def api_request(
         raise e
 
     return json.loads(response.content)
+
+def check_date_format_wrapper(date: str) -> str:
+    """Check dates are 'yyyy-MM-dd' or 'today'.
+
+    Args:
+        date (str): yyyy-MM-dd format (i.e. all digits) or 'today'
+
+    Raises:
+        ValueError: if date is not acceptable
+
+    Returns:
+        str: input date if acceptable
+    """
+    pattern = re.compile(r"^\d\d\d\d-\d\d-\d\d$")
+    
+    if pattern.match(date) is not None:
+        return date
+    elif date == 'today':
+        return date
+    else:
+        raise ValueError("date should match 'yyyy-MM-dd' format, or 'today'")
+    
+
+
 
 class FitBitAPI:
     def __init__(self, tokens: dict) -> None:
