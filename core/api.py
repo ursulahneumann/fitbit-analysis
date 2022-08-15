@@ -49,7 +49,7 @@ class _HeartRate:
     def by_date(self, date:str = 'today', period: str = '1d' ) -> dict:
         VALID_PERIODS = ['1d', '7d', '30d', '1w', '1m']
         if period not in VALID_PERIODS:
-            raise ValueError(f"period '{period}' is not in {VALID_PERIODS}.")
+            raise ValueError(f"period '{period}' should be one of {VALID_PERIODS}.")
 
         url = constants.API_ROOT
         url += f"/1/user/{self._tokens[constants.SECRETS_USER_ID_KEY]}"
