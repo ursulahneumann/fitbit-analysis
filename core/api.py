@@ -74,8 +74,6 @@ def check_date_format_wrapper(date: str) -> str:
         raise ValueError("date should match 'yyyy-MM-dd' format, or 'today'")
     
 
-
-
 class FitbitAPI:
     def __init__(self, tokens: dict) -> None:
         # Attributes representing api endpoints
