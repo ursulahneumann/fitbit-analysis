@@ -20,7 +20,8 @@ def api_request(
             # Get and save new tokens, the reload them
             refresh_token(config_file)
             tokens = load_tokens(config_file)
-            # Get the response again
+            # Load new token into the header
+            HEADERS['Authorization'] = f"Bearer {tokens[constants.TOKEN_API_ACCESS_TOKEN_KEY]}"
             response = requests.get(url=url, headers=HEADERS)
                 
     # Fall through of the if statements prints and raises for other errors
