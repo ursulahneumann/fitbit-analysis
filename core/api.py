@@ -87,6 +87,10 @@ class _HeartRate:
     def by_date(self, date:str = 'today', period: str = '1d' ) -> dict:
         """Heart rate by date endpoint.
 
+        Gets data for a given period preceding a certain date.
+        E.g. '2022-08-15' and '7d' would be from Aug 9 to 15.
+        Using period '1d' will get intraday data, all other periods get daily summaries.
+
         Reference:
         https://dev.fitbit.com/build/reference/web-api/heartrate-timeseries/get-heartrate-timeseries-by-date/
 
