@@ -40,7 +40,7 @@ def api_request(
             HEADERS['Authorization'] = f"Bearer {tokens[constants.TOKEN_API_ACCESS_TOKEN_KEY]}"
             response = requests.get(url=url, headers=HEADERS)
                 
-    # Fall through of the if statements prints and raises for other errors
+    # Raise for any other error response besides an expired token
     try: 
         response.raise_for_status()
     except Exception as e:
