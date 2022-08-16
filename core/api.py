@@ -56,7 +56,7 @@ def check_date_format_wrapper(date: str) -> str:
     """Check dates are 'yyyy-MM-dd' or 'today'.
 
     Args:
-        date (str): yyyy-MM-dd format (i.e. all digits) or 'today'
+        date (str): yyyy-MM-dd format or 'today'
 
     Raises:
         ValueError: if date is not acceptable
