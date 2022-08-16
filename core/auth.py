@@ -110,3 +110,47 @@ def exchange_code_for_tokens(
 
     return json.loads(r.text)
     
+def request_new_token_pair(
+    client_id: str,
+    client_secret: str,
+    refresh_token: str, 
+    api_endpoint: str = TOKEN_ENDPOINT) -> dict:
+    """Request a new access/refresh token pair.
+
+    Args:
+        client_id (str): Id received during app registration
+        client_secret (str): Secret received during app registration
+        refresh_token (str): Current refresh token
+        api_endpoint (str, optional): Currently default endpoint at 
+            https://api.fitbit.com/oauth2/token.
+
+    Raises:
+        e: response content from error is dumped to stdout.
+
+    Returns:
+        dict: Converted JSON response containing access/refresh tokens.
+    """
+    r = requests.post(
+            url=api_endpoint,
+            data={
+                'grant_type':'refresh_token',
+                'refresh_token': refresh_token,
+            },
+            headers={
+                'Authorization': 
+                'Basic ' + b64encode((client_id + ':' + client_secret).encode()).decode()
+            }
+    )
+    
+    # Raise if something went wrong with the request
+    try:
+        r.raise_for_status()
+    except Exception as e:
+        print('\n\n')
+        print("Response content for error at bottom:")
+        print()
+        print(r.content)
+        raise e
+
+    return json.loads(r.text)
+
