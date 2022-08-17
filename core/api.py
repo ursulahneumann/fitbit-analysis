@@ -137,6 +137,33 @@ class _HeartRate:
         url += f"/activities/heart/date/{date}/{period}.json"
         return api_request(url, self._tokens)
 
+    def by_date_range(self, start_date:str = 'today', end_date:str = 'today') -> dict:
+        """Heart rate by date range endpoint.
+
+        Data is intraday when date range spans a single day,
+        otherwise is daily summaries when date range is multi-day.
+
+        Args:
+            start_date (str, optional): yyyy-MM-dd format date, or 'today'. Defaults to 'today'.
+            end_date (str, optional): yyyy-MM-dd format date, or 'today'. Defaults to 'today'.
+
+        Raises:
+            ValueError: if date doesn't match expected formats
+
+        Returns:
+            dict: from JSON data
+        """
+        # Validate dates, will raise ValueError
+        start_date = check_date_format_wrapper(start_date)
+        end_date = check_date_format_wrapper(end_date)
+
+        # API request
+        url = constants.API_ROOT
+        url += f"/1/user/{self._tokens[constants.SECRETS_USER_ID_KEY]}"
+        url += f"/activities/heart/date/{start_date}/{end_date}.json"
+        return api_request(url, self._tokens)
+        
+
     def by_interval_intraday(
         self,
         start_date: str = 'today',
