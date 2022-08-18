@@ -72,7 +72,25 @@ def check_date_format_wrapper(date: str) -> str:
         return date
     else:
         raise ValueError("date should match 'yyyy-MM-dd' format, or 'today'")
-    
+
+def check_time_format_wrapper(time: str) -> str:
+    """Check times are 'HH:mm' format.
+
+    Args:
+        time (str): HH:mm
+
+    Raises:
+        ValueError: if time is not acceptable
+
+    Returns:
+        str: input time if acceptable
+    """
+    pattern = re.compile(r"^\d\d:\d\d$")
+
+    if pattern.match(time) is not None:
+        return time
+    else:
+        raise ValueError("time should match 'HH:mm' format")
 
 class FitbitAPI:
     def __init__(self, tokens: dict) -> None:
@@ -119,3 +137,75 @@ class _HeartRate:
         url += f"/activities/heart/date/{date}/{period}.json"
         return api_request(url, self._tokens)
 
+    def by_interval_intraday(
+        self,
+        start_date: str = 'today',
+        end_date: str = 'today',
+        detail_level: str = '1min',
+        start_time: str = None,
+        end_time: str = None,) -> dict:
+        """Heart rate intraday by interval.
+
+        Time parameters are optional.
+
+        API endpoint returns inconsistent results depending on the parameters.
+        The following table documents the results of different parameter combinations:
+
+        start_date   | end_date     | detail_level | start_time | end_time | result
+        ---------------------------------------------------------------------
+        'today'      | 'today'      | '1min'       | None       | None     | daily + intraday at 1 min intervals
+        'today'      | 'today'      | '1sec'       | None       | None     | invalid 
+        '2022-08-14' | '2022-08-14' | '1min        | None       | None     | daily + intraday at 1 min intervals
+        '2022-08-14' | '2022-08-14' | '1sec        | None       | None     | generic activity categories
+        '2022-08-11' | '2022-08-14' | '1min"       | None       | None     | daily only
+        '2022-08-11' | '2022-08-14' | '1sec"       | None       | None     | generic activity categories
+        'today'      | 'today'      | '1min'       | '07:00'    | '13:00'  | daily + timeboxed intraday at 1 min intervals
+        'today'      | 'today'      | '1sec'       | '07:00'    | '13:00'  | daily + timeboxed intraday at 1 sec intervals
+        '2022-08-14' | '2022-08-14' | '1min        | '07:00'    | '13:00'  | daily + timeboxed intraday at 1 min intervals
+        '2022-08-14' | '2022-08-14' | '1sec'       | '07:00'    | '13:00'  | daily + timeboxed intraday at 1 sec intervals
+        '2022-08-11' | '2022-08-14' | '1min        | '07:00'    | '13:00'  | invalid
+        '2022-08-11' | '2022-08-14' | '1sec'       | '07:00'    | '13:00'  | invalid
+
+        Reference:
+        https://dev.fitbit.com/build/reference/web-api/heartrate-timeseries/get-heartrate-timeseries-by-date/
+
+        Args:
+            start_date (str, optional): yyyy-MM-dd format date, or 'today'. Defaults to 'today'.
+            end_date (str, optional): yyyy-MM-dd format date, or 'today'. Defaults to 'today'.
+            detail_level (str, optional): '1sec' or '1min'. Defaults to '1min'.
+            start_time (str, optional): 'HH:mm' format. Defaults to None.
+            end_time (str, optional): 'HH:mm' format. Defaults to None.
+
+        Raises:
+            ValueError: For unsupported parameters, or if only one of start/end times provided.
+
+        Returns:
+            dict: from JSON data
+        """
+
+        # Validate detail level
+        DETAIL_LEVELS = ['1sec', '1min']
+        if detail_level not in DETAIL_LEVELS:
+            raise ValueError(f"detail_level {detail_level} should be one of {DETAIL_LEVELS}.")
+
+        # Validate date
+        start_date = check_date_format_wrapper(start_date)
+        end_date = check_date_format_wrapper(end_date)
+
+        # Validate that if time parameters are used, both start/end times must be provided
+        if (start_time != None) != (end_time != None): # XOR
+            raise ValueError("Only one start/end time provided, should be neither or both.")
+        # Validate time format
+        if start_time != None:
+            start_time = check_time_format_wrapper(start_time)
+        if end_time != None:
+            end_time = check_time_format_wrapper(end_time)
+
+        # API request
+        url = constants.API_ROOT
+        url += f"/1/user/{self._tokens[constants.SECRETS_USER_ID_KEY]}"
+        url += f"/activities/heart/date/{start_date}/{end_date}/{detail_level}"
+        if (start_time != None) and (end_time != None):
+            url += f"/time/{start_time}/{end_time}"
+        url += f".json"
+        return api_request(url, self._tokens)
