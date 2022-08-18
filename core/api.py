@@ -209,8 +209,7 @@ class _HeartRate:
         date = check_date_format_wrapper(date)
         # Validate detail level
         DETAIL_LEVELS = ['1sec', '1min', '5min', '15min']
-        if detail_level not in DETAIL_LEVELS:
-            raise ValueError(f"detail_level {detail_level} should be one of {DETAIL_LEVELS}.")
+        detail_level = check_detail_level_wrapper(detail_level, DETAIL_LEVELS)
         # Validate both times or neither provided 
         if (start_time != None) != (end_time != None): # XOR
             raise ValueError("Only one start/end time provided, should be neither or both.")
@@ -278,8 +277,7 @@ class _HeartRate:
 
         # Validate detail level
         DETAIL_LEVELS = ['1sec', '1min']
-        if detail_level not in DETAIL_LEVELS:
-            raise ValueError(f"detail_level {detail_level} should be one of {DETAIL_LEVELS}.")
+        detail_level = check_detail_level_wrapper(detail_level, DETAIL_LEVELS)
 
         # Validate date
         start_date = check_date_format_wrapper(start_date)
