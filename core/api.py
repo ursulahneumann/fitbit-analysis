@@ -192,7 +192,7 @@ class _HeartRate:
         start_date = check_date_format_wrapper(start_date)
         end_date = check_date_format_wrapper(end_date)
 
-        # Validate both times or neither provided 
+        # Validate that if time parameters are used, both start/end times must be provided
         if (start_time != None) != (end_time != None): # XOR
             raise ValueError("Only one start/end time provided, should be neither or both.")
         # Validate time format
