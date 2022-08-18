@@ -153,15 +153,15 @@ class _HeartRate:
 
         start_date   | end_date     | detail_level | start_time | end_time | result
         ---------------------------------------------------------------------
-        'today'      | 'today'      | '1min'       | None       | None     | daily + intraday
+        'today'      | 'today'      | '1min'       | None       | None     | daily + intraday at 1 min intervals
         'today'      | 'today'      | '1sec'       | None       | None     | invalid 
-        '2022-08-14' | '2022-08-14' | '1min        | None       | None     | daily + intraday
+        '2022-08-14' | '2022-08-14' | '1min        | None       | None     | daily + intraday at 1 min intervals
         '2022-08-14' | '2022-08-14' | '1sec        | None       | None     | generic activity categories
         '2022-08-11' | '2022-08-14' | '1min"       | None       | None     | daily only
         '2022-08-11' | '2022-08-14' | '1sec"       | None       | None     | generic activity categories
-        'today'      | 'today'      | '1min'       | '07:00'    | '13:00'  | daily + timeboxed intraday
+        'today'      | 'today'      | '1min'       | '07:00'    | '13:00'  | daily + timeboxed intraday at 1 min intervals
         'today'      | 'today'      | '1sec'       | '07:00'    | '13:00'  | daily + timeboxed intraday at 1 sec intervals
-        '2022-08-14' | '2022-08-14' | '1min        | '07:00'    | '13:00'  | daily + timeboxed intraday
+        '2022-08-14' | '2022-08-14' | '1min        | '07:00'    | '13:00'  | daily + timeboxed intraday at 1 min intervals
         '2022-08-14' | '2022-08-14' | '1sec'       | '07:00'    | '13:00'  | daily + timeboxed intraday at 1 sec intervals
         '2022-08-11' | '2022-08-14' | '1min        | '07:00'    | '13:00'  | invalid
         '2022-08-11' | '2022-08-14' | '1sec'       | '07:00'    | '13:00'  | invalid
