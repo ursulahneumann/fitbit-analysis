@@ -93,7 +93,7 @@ def check_time_format_wrapper(time: str) -> str:
         raise ValueError("time should match 'HH:mm' format")
 
 def check_detail_level_wrapper(detail_level:str, valid_detail_levels: list) -> str:
-    """Check that detail levels are in the list of allowed detail levels
+    """Check that detail levels are in the list of allowed detail levels.
 
     Args:
         detail_level (str): the detail level to be validated
