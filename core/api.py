@@ -251,14 +251,8 @@ class _HeartRate:
         # Validate detail level
         DETAIL_LEVELS = ['1sec', '1min', '5min', '15min']
         detail_level = check_detail_level_wrapper(detail_level, DETAIL_LEVELS)
-        # Validate both times or neither provided 
-        if (start_time != None) != (end_time != None): # XOR
-            raise ValueError("Only one start/end time provided, should be neither or both.")
-        # Validate time format
-        if start_time != None:
-            start_time = check_time_format_wrapper(start_time)
-        if end_time != None:
-            end_time = check_time_format_wrapper(end_time)
+        # Validate times
+        start_time, end_time = check_time_periods(start_time, end_time)
         
         # API request
         url = constants.API_ROOT
@@ -324,14 +318,8 @@ class _HeartRate:
         start_date = check_date_format_wrapper(start_date)
         end_date = check_date_format_wrapper(end_date)
 
-        # Validate that if time parameters are used, both start/end times must be provided
-        if (start_time != None) != (end_time != None): # XOR
-            raise ValueError("Only one start/end time provided, should be neither or both.")
-        # Validate time format
-        if start_time != None:
-            start_time = check_time_format_wrapper(start_time)
-        if end_time != None:
-            end_time = check_time_format_wrapper(end_time)
+        # Validate times
+        start_time, end_time = check_time_periods(start_time, end_time)
 
         # API request
         url = constants.API_ROOT
