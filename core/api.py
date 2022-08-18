@@ -208,5 +208,4 @@ class _HeartRate:
         if (start_time != None) and (end_time != None):
             url += f"/time/{start_time}/{end_time}"
         url += f".json"
-        print(url)
         return api_request(url, self._tokens)
