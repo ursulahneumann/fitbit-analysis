@@ -170,8 +170,8 @@ class _HeartRate:
         https://dev.fitbit.com/build/reference/web-api/heartrate-timeseries/get-heartrate-timeseries-by-date/
 
         Args:
-            start_date (str, optional): yyyy-MM-dd format date, or 'today'.. Defaults to 'today'.
-            end_date (str, optional): yyyy-MM-dd format date, or 'today'.. Defaults to 'today'.
+            start_date (str, optional): yyyy-MM-dd format date, or 'today'. Defaults to 'today'.
+            end_date (str, optional): yyyy-MM-dd format date, or 'today'. Defaults to 'today'.
             detail_level (str, optional): '1sec' or '1min'. Defaults to '1min'.
             start_time (str, optional): 'HH:mm' format. Defaults to None.
             end_time (str, optional): 'HH:mm' format. Defaults to None.
