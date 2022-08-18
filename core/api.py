@@ -3,6 +3,7 @@ import json
 import re
 from core.util import load_tokens, refresh_token
 from core import constants
+from typing import Tuple
 
 def api_request(
     url: str,
@@ -125,6 +126,30 @@ def check_period_wrapper(period:str, valid_periods: list) -> str:
     if period not in valid_periods:
         raise ValueError(f"period '{period}' should be one of {valid_periods}.")
     return period
+
+def check_time_periods(start_time:str, end_time:str) -> Tuple[str, str]:
+    """Check that both time are provided, or are both None, and time formatting.
+
+    Args:
+        start_time (str): start_time to be validated
+        end_time (str): end_time to be validated
+
+    Raises:
+        ValueError: if only one of the times are provided, or format not valid
+
+    Returns:
+        Tuple[str, str]: (start_time, end_time) if valid
+    """
+    # Validate that if time parameters are used, both start/end times must be provided
+    if (start_time != None) != (end_time != None): # XOR
+        raise ValueError("Only one start/end time provided, should be neither or both.")
+    # Validate time format
+    if start_time != None:
+        start_time = check_time_format_wrapper(start_time)
+    if end_time != None:
+        end_time = check_time_format_wrapper(end_time)   
+
+    return (start_time, end_time)
 
 class FitbitAPI:
     def __init__(self, tokens: dict) -> None:
