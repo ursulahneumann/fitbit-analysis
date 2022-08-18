@@ -159,8 +159,7 @@ class _HeartRate:
         """
         # Validate period
         VALID_PERIODS = ['1d', '7d', '30d', '1w', '1m']
-        if period not in VALID_PERIODS:
-            raise ValueError(f"period '{period}' should be one of {VALID_PERIODS}.")
+        period = check_period_wrapper(period, VALID_PERIODS)
 
         # Validate date
         date = check_date_format_wrapper(date)
