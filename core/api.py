@@ -182,11 +182,11 @@ class _HeartRate:
         Returns:
             dict: from JSON data
         """
-        # Validate period
+        # Validate period, raises ValueError
         VALID_PERIODS = ['1d', '7d', '30d', '1w', '1m']
         period = check_period_wrapper(period, VALID_PERIODS)
 
-        # Validate date
+        # Validate date, raises ValueError
         date = check_date_format_wrapper(date)
 
         # API request
@@ -211,7 +211,7 @@ class _HeartRate:
         Returns:
             dict: from JSON data
         """
-        # Validate dates, will raise ValueError
+        # Validate dates, raises ValueError
         start_date = check_date_format_wrapper(start_date)
         end_date = check_date_format_wrapper(end_date)
 
@@ -246,12 +246,12 @@ class _HeartRate:
             dict: from JSON data
         """
 
-        # Validate date, raise ValueError
+        # Validate date, raises ValueError
         date = check_date_format_wrapper(date)
-        # Validate detail level
+        # Validate detail level, raises ValueError
         DETAIL_LEVELS = ['1sec', '1min', '5min', '15min']
         detail_level = check_detail_level_wrapper(detail_level, DETAIL_LEVELS)
-        # Validate times
+        # Validate times, raises ValueError
         start_time, end_time = check_time_periods(start_time, end_time)
         
         # API request
@@ -314,11 +314,11 @@ class _HeartRate:
         DETAIL_LEVELS = ['1sec', '1min']
         detail_level = check_detail_level_wrapper(detail_level, DETAIL_LEVELS)
 
-        # Validate date
+        # Validate date, raises ValueError
         start_date = check_date_format_wrapper(start_date)
         end_date = check_date_format_wrapper(end_date)
 
-        # Validate times
+        # Validate times, raises ValueError
         start_time, end_time = check_time_periods(start_time, end_time)
 
         # API request
