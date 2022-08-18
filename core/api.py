@@ -109,6 +109,23 @@ def check_detail_level_wrapper(detail_level:str, valid_detail_levels: list) -> s
             raise ValueError(f"detail_level {detail_level} should be one of {valid_detail_levels}.")
     return detail_level
 
+def check_period_wrapper(period:str, valid_periods: list) -> str:
+    """Check that periods are in the list of allowed periods.
+
+    Args:
+        period (str): the period to be validated
+        valid_periods (list): allowed periods for that endpoint
+
+    Raises:
+        ValueError: if period is not valid
+
+    Returns:
+        str: input period if valid
+    """
+    if period not in valid_periods:
+        raise ValueError(f"period '{period}' should be one of {valid_periods}.")
+    return period
+
 class FitbitAPI:
     def __init__(self, tokens: dict) -> None:
         # Attributes representing api endpoints
