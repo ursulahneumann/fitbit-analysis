@@ -92,6 +92,23 @@ def check_time_format_wrapper(time: str) -> str:
     else:
         raise ValueError("time should match 'HH:mm' format")
 
+def check_detail_level_wrapper(detail_level:str, valid_detail_levels: list) -> str:
+    """Check that detail levels are in the list of allowed detail levels
+
+    Args:
+        detail_level (str): the detail level to be validated
+        valid_detail_levels (list): allowed detail levels for that endpoint
+
+    Raises:
+        ValueError: if detail_level is not valid
+
+    Returns:
+        str: input detail_level if valid
+    """
+    if detail_level not in valid_detail_levels:
+            raise ValueError(f"detail_level {detail_level} should be one of {valid_detail_levels}.")
+    return detail_level
+
 class FitbitAPI:
     def __init__(self, tokens: dict) -> None:
         # Attributes representing api endpoints
