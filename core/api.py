@@ -137,6 +137,82 @@ class _HeartRate:
         url += f"/activities/heart/date/{date}/{period}.json"
         return api_request(url, self._tokens)
 
+    def by_date_range(self, start_date:str = 'today', end_date:str = 'today') -> dict:
+        """Heart rate by date range endpoint.
+
+        Data is intraday when date range spans a single day,
+        otherwise is daily summaries when date range is multi-day.
+
+        Args:
+            start_date (str, optional): yyyy-MM-dd format date, or 'today'. Defaults to 'today'.
+            end_date (str, optional): yyyy-MM-dd format date, or 'today'. Defaults to 'today'.
+
+        Raises:
+            ValueError: if date doesn't match expected formats
+
+        Returns:
+            dict: from JSON data
+        """
+        # Validate dates, will raise ValueError
+        start_date = check_date_format_wrapper(start_date)
+        end_date = check_date_format_wrapper(end_date)
+
+        # API request
+        url = constants.API_ROOT
+        url += f"/1/user/{self._tokens[constants.SECRETS_USER_ID_KEY]}"
+        url += f"/activities/heart/date/{start_date}/{end_date}.json"
+        return api_request(url, self._tokens)
+        
+    def by_date_intraday(
+        self,
+        date: str = 'today',
+        detail_level: str = '1min',
+        start_time: str = None,
+        end_time: str = None,
+        ) -> dict:
+        """Heartrate intraday by date.
+
+        For a certain date, get intraday data at given detail_level intervals.
+        Optionally restrict to within a period of the day.
+
+        Args:
+            date (str, optional): yyyy-MM-dd format date, or 'today'. Defaults to 'today'.
+            detail_level (str, optional): one of ['1sec', '1min', '5min', '15min']. Defaults to '1min'.
+            start_time (str, optional): 'HH:mm' format. Defaults to None.
+            end_time (str, optional): 'HH:mm' format. Defaults to None.
+
+        Raises:
+            ValueError: if parameters don't match expected formats
+
+        Returns:
+            dict: from JSON data
+        """
+
+        # Validate date, raise ValueError
+        date = check_date_format_wrapper(date)
+        # Validate detail level
+        DETAIL_LEVELS = ['1sec', '1min', '5min', '15min']
+        if detail_level not in DETAIL_LEVELS:
+            raise ValueError(f"detail_level {detail_level} should be one of {DETAIL_LEVELS}.")
+        # Validate both times or neither provided 
+        if (start_time != None) != (end_time != None): # XOR
+            raise ValueError("Only one start/end time provided, should be neither or both.")
+        # Validate time format
+        if start_time != None:
+            start_time = check_time_format_wrapper(start_time)
+        if end_time != None:
+            end_time = check_time_format_wrapper(end_time)
+        
+        # API request
+        url = constants.API_ROOT
+        url += f"/1/user/{self._tokens[constants.SECRETS_USER_ID_KEY]}"
+        url += f"/activities/heart/date/{date}/1d/{detail_level}"
+        if (start_time != None) and (end_time != None):
+            url += f"/time/{start_time}/{end_time}"
+        url += f".json"
+        return api_request(url, self._tokens)
+
+
     def by_interval_intraday(
         self,
         start_date: str = 'today',
