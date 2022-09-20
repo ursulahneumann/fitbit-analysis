@@ -3,6 +3,7 @@ import json
 import re
 from core.util import load_tokens, refresh_token
 from core import constants
+from typing import Tuple
 
 def api_request(
     url: str,
@@ -92,6 +93,64 @@ def check_time_format_wrapper(time: str) -> str:
     else:
         raise ValueError("time should match 'HH:mm' format")
 
+def check_detail_level_wrapper(detail_level:str, valid_detail_levels: list) -> str:
+    """Check that detail levels are in the list of allowed detail levels.
+
+    Args:
+        detail_level (str): the detail level to be validated
+        valid_detail_levels (list): allowed detail levels for that endpoint
+
+    Raises:
+        ValueError: if detail_level is not valid
+
+    Returns:
+        str: input detail_level if valid
+    """
+    if detail_level not in valid_detail_levels:
+            raise ValueError(f"detail_level {detail_level} should be one of {valid_detail_levels}.")
+    return detail_level
+
+def check_period_wrapper(period:str, valid_periods: list) -> str:
+    """Check that periods are in the list of allowed periods.
+
+    Args:
+        period (str): the period to be validated
+        valid_periods (list): allowed periods for that endpoint
+
+    Raises:
+        ValueError: if period is not valid
+
+    Returns:
+        str: input period if valid
+    """
+    if period not in valid_periods:
+        raise ValueError(f"period '{period}' should be one of {valid_periods}.")
+    return period
+
+def check_time_periods(start_time:str, end_time:str) -> Tuple[str, str]:
+    """Check that both time are provided, or are both None, and time formatting.
+
+    Args:
+        start_time (str): start_time to be validated
+        end_time (str): end_time to be validated
+
+    Raises:
+        ValueError: if only one of the times are provided, or format not valid
+
+    Returns:
+        Tuple[str, str]: (start_time, end_time) if valid
+    """
+    # Validate that if time parameters are used, both start/end times must be provided
+    if (start_time != None) != (end_time != None): # XOR
+        raise ValueError("Only one start/end time provided, should be neither or both.")
+    # Validate time format
+    if start_time != None:
+        start_time = check_time_format_wrapper(start_time)
+    if end_time != None:
+        end_time = check_time_format_wrapper(end_time)   
+
+    return (start_time, end_time)
+
 class FitbitAPI:
     def __init__(self, tokens: dict) -> None:
         # Attributes representing api endpoints
@@ -123,12 +182,11 @@ class _HeartRate:
         Returns:
             dict: from JSON data
         """
-        # Validate period
+        # Validate period, raises ValueError
         VALID_PERIODS = ['1d', '7d', '30d', '1w', '1m']
-        if period not in VALID_PERIODS:
-            raise ValueError(f"period '{period}' should be one of {VALID_PERIODS}.")
+        period = check_period_wrapper(period, VALID_PERIODS)
 
-        # Validate date
+        # Validate date, raises ValueError
         date = check_date_format_wrapper(date)
 
         # API request
@@ -153,7 +211,7 @@ class _HeartRate:
         Returns:
             dict: from JSON data
         """
-        # Validate dates, will raise ValueError
+        # Validate dates, raises ValueError
         start_date = check_date_format_wrapper(start_date)
         end_date = check_date_format_wrapper(end_date)
 
@@ -188,20 +246,13 @@ class _HeartRate:
             dict: from JSON data
         """
 
-        # Validate date, raise ValueError
+        # Validate date, raises ValueError
         date = check_date_format_wrapper(date)
-        # Validate detail level
+        # Validate detail level, raises ValueError
         DETAIL_LEVELS = ['1sec', '1min', '5min', '15min']
-        if detail_level not in DETAIL_LEVELS:
-            raise ValueError(f"detail_level {detail_level} should be one of {DETAIL_LEVELS}.")
-        # Validate both times or neither provided 
-        if (start_time != None) != (end_time != None): # XOR
-            raise ValueError("Only one start/end time provided, should be neither or both.")
-        # Validate time format
-        if start_time != None:
-            start_time = check_time_format_wrapper(start_time)
-        if end_time != None:
-            end_time = check_time_format_wrapper(end_time)
+        detail_level = check_detail_level_wrapper(detail_level, DETAIL_LEVELS)
+        # Validate times, raises ValueError
+        start_time, end_time = check_time_periods(start_time, end_time)
         
         # API request
         url = constants.API_ROOT
@@ -261,21 +312,14 @@ class _HeartRate:
 
         # Validate detail level
         DETAIL_LEVELS = ['1sec', '1min']
-        if detail_level not in DETAIL_LEVELS:
-            raise ValueError(f"detail_level {detail_level} should be one of {DETAIL_LEVELS}.")
+        detail_level = check_detail_level_wrapper(detail_level, DETAIL_LEVELS)
 
-        # Validate date
+        # Validate date, raises ValueError
         start_date = check_date_format_wrapper(start_date)
         end_date = check_date_format_wrapper(end_date)
 
-        # Validate that if time parameters are used, both start/end times must be provided
-        if (start_time != None) != (end_time != None): # XOR
-            raise ValueError("Only one start/end time provided, should be neither or both.")
-        # Validate time format
-        if start_time != None:
-            start_time = check_time_format_wrapper(start_time)
-        if end_time != None:
-            end_time = check_time_format_wrapper(end_time)
+        # Validate times, raises ValueError
+        start_time, end_time = check_time_periods(start_time, end_time)
 
         # API request
         url = constants.API_ROOT
